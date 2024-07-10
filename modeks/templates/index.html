@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>SymptoSense</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='static/favicon/favicon-32x32.png') }}" rel="icon">
+  <link href="{{ url_for('static', filename='static/favicon/apple-touch-icon.png') }}" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/style.css') }}">
+
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+  <div class="container d-flex align-items-center">
+      <a href="{{ url_for('home') }}" class="logo me-auto"><img src="{{ url_for('static', filename='invert_logo.png') }}" alt="">SymptoSense</a>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <h1 class="logo me-auto"><a href="index.html">Medicio</a></h1> -->
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+          <ul>
+              <li><a class="nav-link scrollto" href="http://127.0.0.1:5000/">Home</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+      <button class="appointment-btn " onclick="location.href='/index'" >Get Started</button>
+  </div>
+</header><!-- End Header -->
+
+<!-- ======= Breadcrumbs Section ======= -->
+<section class="breadcrumbs">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Get Started</h2>
+      <ol>
+        <li><a href="http://127.0.0.1:5000/">Home</a></li>
+        <li>Get Getstarted</li>
+      </ol>
+    </div>
+  </div>
+</section><!-- End Breadcrumbs Section -->
+
+<main id="main">
+
+<!-- ======= Buttons Section ======= -->
+<section id="counts" class="counts">
+  <div class="container" data-aos="fade-up">
+    <h1>Our Models:</h1>
+
+    <div class="row">
+      <div class="col-md-6 col-lg-4">
+        <div class="icon-box mt-5 mt-lg-0" data-aos="fade-right" style="border: 2px solid #1e90ff; border-radius: 10px; padding: 20px;">
+          <i class="bx bx-receipt" style="color: #1e90ff;"></i>
+          <h4>Kidney Disease Prediction</h4>
+          <p>Predict the likelihood of kidney disease based on various health indicators.</p>
+          <button class="btn"  onclick="window.location.href='/kidney'">Click here to test</button>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="icon-box mt-5 mt-lg-0" data-aos="fade-right" style="border: 2px solid #1e90ff; border-radius: 10px; padding: 20px;">
+          <i class="bx bx-cube-alt" style="color: #1e90ff;"></i>
+          <h4>Kidney Image Prediction</h4>
+          <p>Analyze kidney images to detect abnormalities using advanced image processing techniques.</p>
+          <button class="btn"  onclick="window.location.href='/kidney_image'">Click here to test</button>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="icon-box mt-5 mt-lg-0" data-aos="fade-right" style="border: 2px solid #1e90ff; border-radius: 10px; padding: 20px;">
+          <i class="bx bx-images" style="color: #1e90ff;"></i>
+          <h4>Symptoms-based Prediction</h4>
+          <p>Determine potential diseases based on a comprehensive list of symptoms.</p>
+          <button class="btn"  onclick="window.location.href='/symptoms'">Click here to test</button>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="icon-box mt-5 mt-lg-0" data-aos="fade-right" style="border: 2px solid #1e90ff; border-radius: 10px; padding: 20px;">
+          <i class="bx bx-shield" style="color: #1e90ff;"></i>
+          <h4>Breast Cancer Prediction</h4>
+          <p>Assess the risk of breast cancer using patient data and medical history.</p>
+          <button class="btn"  onclick="window.location.href='/breast'">Click here to test</button>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="icon-box mt-5 mt-lg-0" data-aos="fade-right" style="border: 2px solid #1e90ff; border-radius: 10px; padding: 20px;">
+          <i class="bx bx-shield" style="color: #1e90ff;"></i>
+          <h4>Brain Tumor Prediction</h4>
+          <p>Utilize MRI scans and other data to predict the presence of brain tumors.</p>
+          <button class="btn"  onclick="window.location.href='/brain'">Click here to test</button>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="icon-box mt-5 mt-lg-0" data-aos="fade-right" style="border: 2px solid #1e90ff; border-radius: 10px; padding: 20px;">
+          <i class="bx bx-shield" style="color: #1e90ff;"></i>
+          <h4>Lung Cancer Prediction</h4>
+          <p>Predict the likelihood of lung cancer based on imaging and patient history.</p>
+          <button class="btn"  onclick="window.location.href='/lung'">Click here to test</button>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="icon-box mt-5 mt-lg-0" data-aos="fade-right" style="border: 2px solid #1e90ff; border-radius: 10px; padding: 20px;">
+          <i class="bx bx-shield" style="color: #1e90ff;"></i>
+          <h4>Pneumonia Prediction</h4>
+          <p>Identify pneumonia in patients using chest X-rays and other diagnostic data.</p>
+          <button class="btn"  onclick="window.location.href='/pneumonia'">Click here to test</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section><!-- End Buttons Section -->
+
+
+
+</main><!-- End #main -->
+
+ <!-- ======= Footer ======= -->
+ <footer id="footer">
+  <div class="footer-top">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-3 col-md-6">
+                  <div class="footer-info">
+                      <h3>SymptoSense</h3>
+                      <p>
+                          1234 MG Road <br>
+                          Bengaluru, Karnataka 560001, India<br><br>
+                          <strong>Phone:</strong> +91 123456789<br>
+                          <strong>Email:</strong> info@example.com<br>
+                      </p>
+                      <div class="social-links mt-3">
+                          <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                          <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                          <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                          <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                          <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-lg-2 col-md-6 footer-links">
+                  <h4>Useful Links</h4>
+                  <ul>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                  </ul>
+              </div>
+
+              <div class="col-lg-4 col-md-6 offset-lg-3 footer-newsletter">
+                  <h4>Our Newsletter</h4>
+                  <p>Register to get updated by subscribing to our newsletter</p>
+                  <form action="" method="post">
+                      <input type="email" name="email"><input type="submit" value="Subscribe">
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="container">
+      <div class="copyright">
+          &copy; Copyright <strong><span>SymptoSense</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+  </div>
+</footer><!-- End Footer -->
+
+<div id="preloader"></div>
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<script src="{{ url_for('static', filename='assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/aos/aos.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/php-email-form/validate.js') }}"></script>
+
+<script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+</body>
+
+</html>

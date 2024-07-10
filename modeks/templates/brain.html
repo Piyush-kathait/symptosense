@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>SymptoSense</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='static/favicon/favicon-32x32.png') }}" rel="icon">
+  <link href="{{ url_for('static', filename='static/favicon/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <link type="text/css" href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/style.css') }}">
+
+  <style>
+    /* Custom CSS for the Kidney Image Upload and Breast Cancer Prediction sections */
+    h1 {
+      color: #2c3e50;
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+      padding-top: 20px;
+    }
+
+    .upload-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    .upload-container input[type="file"] {
+      margin: 20px 0;
+      padding: 10px;
+      border: 2px dashed #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .upload-container input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .upload-container input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    @media (max-width: 768px) {
+      .upload-container {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top">
+  <div class="container d-flex align-items-center">
+      <a href="{{ url_for('home') }}" class="logo me-auto"><img src="{{ url_for('static', filename='invert_logo.png') }}" alt="">SymptoSense</a>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <h1 class="logo me-auto"><a href="index.html">Medicio</a></h1> -->
+
+      <nav id="navbar" class="navbar order-last order-lg-0">
+          <ul>
+              <li><a class="nav-link scrollto" href="http://127.0.0.1:5000/">Home</a></li>
+              
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+      <button class="appointment-btn " onclick="location.href='/index'" >Get Started</button>
+  </div>
+</header><!-- End Header -->
+
+  <main id="main">
+
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Brain Tumor Prediction</h2>
+          <ol>
+            <li><a href="http://127.0.0.1:5000/">Home</a></li>
+            <li>Brain Tumor Prediction</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs Section -->
+
+    <div class="upload-container">
+      <h1>Brain Tumor Prediction</h1>
+      <form action="/brain_tumor_prediction" method="post" enctype="multipart/form-data">
+        <label for="file">Upload an image:</label><br>
+        <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png" required><br>
+        <input type="submit" value="Predict">
+      </form>
+      <div id="prediction_result"></div>
+    </div>
+
+  </main><!-- End #main -->
+
+ <!-- ======= Footer ======= -->
+ <footer id="footer">
+  <div class="footer-top">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-3 col-md-6">
+                  <div class="footer-info">
+                      <h3>SymptoSense</h3>
+                      <p>
+                          1234 MG Road <br>
+                          Bengaluru, Karnataka 560001, India<br><br>
+                          <strong>Phone:</strong> +91 123456789<br>
+                          <strong>Email:</strong> info@example.com<br>
+                      </p>
+                      <div class="social-links mt-3">
+                          <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                          <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                          <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                          <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                          <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-lg-2 col-md-6 footer-links">
+                  <h4>Useful Links</h4>
+                  <ul>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                  </ul>
+              </div>
+
+              <div class="col-lg-4 col-md-6 offset-lg-3 footer-newsletter">
+                  <h4>Our Newsletter</h4>
+                  <p>Register to get updated by subscribing to our newsletter</p>
+                  <form action="" method="post">
+                      <input type="email" name="email"><input type="submit" value="Subscribe">
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="container">
+      <div class="copyright">
+          &copy; Copyright <strong><span>SymptoSense</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+  </div>
+</footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <script src="{{ url_for('static', filename='assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/aos/aos.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/php-email-form/validate.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+</body>
+
+</html>

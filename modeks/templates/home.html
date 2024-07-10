@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>SymptoSense</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='static/favicon/favicon-32x32.png') }}" rel="icon">
+  <link href="{{ url_for('static', filename='static/favicon/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+ <!-- Vendor CSS Files -->
+ <link type="text/css" href="{{ url_for('static', filename='assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+ <link type="text/css" href="{{ url_for('static', filename='assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">
+ <link type="text/css" href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet">
+ <link type="text/css" href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+ <link type="text/css" href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+ <link type="text/css" href="{{ url_for('static', filename='assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+ <link type="text/css" href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+ <link type="text/css" href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+ 
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='assets/css/style.css') }}">
+  <style>
+    #chatbot-container {
+        display: none; /* Initially hide the chatbot container */
+        position: fixed;
+        bottom: 80px; /* Adjust as needed */
+        right: 20px; /* Adjust as needed */
+        width: 400px; /* Increased width */
+        height: 500px; /* Increased height */
+        border: 2px solid #007bff;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        z-index: 1000; /* Increased z-index */
+        border-radius: 10px; /* Added border-radius for better appearance */
+    }
+
+    #open-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 1000; /* Increased z-index */
+    }
+
+    #close-btn {
+        padding: 5px 10px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #message-container {
+        display: flex;
+        margin-top: 10px;
+    }
+
+    #message {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-weight: bold; /* Make input text bold */
+    }
+
+    #send-btn {
+        padding: 10px 15px;
+        margin-left: 5px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    #chat-container {
+        height: 350px; /* Adjust height as needed */
+        overflow-y: auto;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .user-message {
+        font-weight: bold; /* Make user message bold */
+        margin-bottom: 5px;
+    }
+
+    .bot-response {
+        font-style: italic; /* Make bot response italic */
+        margin-bottom: 10px;
+    }
+</style>
+
+</head>
+
+<body>
+  <button id="open-btn">Open Chatbot</button>
+
+  <!-- Chatbot Container -->
+  <div id="chatbot-container">
+      <button id="close-btn">Close Chatbot</button>
+      <div id="chat-container"></div>
+      <div id="message-container">
+          <input type="text" id="message" placeholder="Enter your message">
+          <button id="send-btn">Send</button>
+      </div>
+  </div>
+  
+  <!--<!-- ======= Top Bar ======= 
+  
+
+     <!-- ======= Header ======= -->
+     <header id="header" class="fixed-top">
+      <div class="container d-flex align-items-center">
+          <a href="{{ url_for('home') }}" class="logo me-auto"><img src="{{ url_for('static', filename='invert_logo.png') }}" alt="">SymptoSense</a>
+          <!-- Uncomment below if you prefer to use an image logo -->
+          <!-- <h1 class="logo me-auto"><a href="index.html">Medicio</a></h1> -->
+
+          <nav id="navbar" class="navbar order-last order-lg-0">
+              <ul>
+                  <li><a class="nav-link scrollto" href="#hero">Home</a></li>
+                  <li><a class="nav-link scrollto" href="#about">About</a></li>
+                  <li><a class="nav-link scrollto" href="#services">Services</a></li>
+                  <li><a class="nav-link scrollto" href="#departments">Departments</a></li>
+                  
+                  <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+              </ul>
+              <i class="bi bi-list mobile-nav-toggle"></i>
+          </nav><!-- .navbar -->
+          <button class="appointment-btn " onclick="location.href='/index'" >Get Started</button>
+      </div>
+  </header><!-- End Header -->
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+  <div id="heroCarousel" data-bs-interval="5000" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+    <div class="carousel-inner" role="listbox">
+      <!-- Slide 1 -->
+      <div class="carousel-item active" style="background-image: url({{ url_for('static', filename='assets/img/slide/slide-1.jpg') }})">
+        <div class="container">
+          <h2>Welcome to <span>SymptoSense</span></h2>
+          <p>Welcome to our state-of-the-art platform that empowers healthcare professionals and individuals with AI-driven diagnostic predictions. </p>
+        </div>
+      </div>
+      <!-- Slide 2 -->
+      <div class="carousel-item" style="background-image: url({{ url_for('static', filename='assets/img/slide/slide-2.jpg') }})">
+        <div class="container">
+          <h2>Enhancing Diagnostic Accuracy</h2>
+          <p>Despite advancements in medical technology, early detection and accurate diagnosis of diseases remain significant challenges in healthcare. Many diseases, such as cancer and respiratory illnesses, require timely and precise identification to improve patient outcomes. However, the traditional diagnostic processes can be time-consuming, subjective, and often require specialized expertise. This leads to delays in treatment, increased healthcare costs, and varying levels of diagnostic accuracy. There is a critical need for a solution that leverages modern technology to enhance the diagnostic process, making it faster, more accurate, and accessible.</p>
+        </div>
+      </div>
+      <!-- Slide 3 -->
+      <div class="carousel-item" style="background-image: url({{ url_for('static', filename='assets/img/slide/slide-3.jpg') }})">
+        <div class="container">
+          <h2>Empowering Healthcare Professionals</h2>
+          <p>Our platform aims to empower healthcare professionals by providing them with a sophisticated toolset for predicting and diagnosing diseases. By leveraging machine learning algorithms and extensive medical data sets, including X-rays, MRI scans, and other medical imaging, our platform offers reliable diagnostic predictions. This enables healthcare professionals to make informed decisions, leading to improved patient care and outcomes.</p>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#heroCarousel" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+    </a>
+    <a class="carousel-control-next" href="#heroCarousel" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+    </a>
+  </div>
+</section>
+
+<!-- End Hero -->
+
+  <main id="main">
+
+   <!-- ======= Featured Services Section ======= -->
+   <section id="featured-services" class="featured-services">
+    <div class="container" data-aos="fade-up">
+        <div class="row">
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+                    <div class="icon"><i class="fas fa-heartbeat"></i></div>
+                    <h4 class="title"><a href="">"Timely and Accurate Diagnoses"</a></h4>
+                    <p class="description">Early detection and accurate diagnosis of diseases remain significant challenges in healthcare. Many diseases, such as cancer and respiratory illnesses, require timely and precise identification to improve patient outcomes. However, traditional diagnostic processes can be time-consuming, subjective, and often require specialized expertise.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                <div class="icon-box" data-aos="fade-up" data-aos-delay="200">
+                    <div class="icon"><i class="fas fa-pills"></i></div>
+                    <h4 class="title"><a href="">"Leveraging technology"</a></h4>
+                    <p class="description">There is a critical need for a solution that leverages modern technology to enhance the diagnostic process, making it faster, more accurate, and accessible. By utilizing technologies such as artificial intelligence, machine learning, and data analytics, healthcare providers can streamline diagnostics, reduce errors, and improve patient outcomes.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                <div class="icon-box" data-aos="fade-up" data-aos-delay="300">
+                    <div class="icon"><i class="fas fa-thermometer"></i></div>
+                    <h4 class="title"><a href="">"Improving efficiency"</a></h4>
+                    <p class="description">Advanced diagnostic tools and platforms can automate processes, analyze large datasets, and provide insights in real-time. This improves efficiency, reduces waiting times, and enables healthcare professionals to focus more on patient care. Additionally, remote monitoring and telemedicine solutions can extend the reach of diagnostics to underserved areas.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                <div class="icon-box" data-aos="fade-up" data-aos-delay="400">
+                    <div class="icon"><i class="fas fa-dna"></i></div>
+                    <h4 class="title"><a href="">"Ensuring accuracy"</a></h4>
+                    <p class="description">By integrating advanced algorithms and predictive models into diagnostic systems, healthcare providers can achieve higher levels of accuracy and reliability. These systems can analyze complex data patterns, identify subtle anomalies, and provide actionable insights to clinicians. This leads to more precise diagnoses, personalized treatment plans, and improved patient outcomes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="about">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>About Us</h2>
+      <p>We are Team Neofetch, a passionate group of innovators participating in a hackathon to develop a cutting-edge healthcare application. Our mission is to leverage advanced data analysis and artificial intelligence to assist healthcare professionals and individuals in predicting and diagnosing diseases. Our platform uses machine learning algorithms and extensive medical data sets to provide reliable diagnostic predictions.</p>
+    </div>
+    <div class="row">
+      <div class="col-lg-6" data-aos="fade-right">
+        <img src="{{ url_for('static', filename='assets/img/about.jpg') }}" class="img-fluid" alt="Team Neofetch">
+      </div>
+      <div class="col-lg-6 pt-4 pt-lg-0 content" data-aos="fade-left">
+        <h3>Our Commitment to Healthcare Innovation</h3>
+        <p class="fst-italic">
+          At Team Neofetch, we believe in the power of technology to transform healthcare and improve patient outcomes.
+        </p>
+        <ul>
+          <li><i class="bi bi-check-circle"></i> Harnessing machine learning to provide accurate disease predictions.</li>
+          <li><i class="bi bi-check-circle"></i> Utilizing extensive medical imaging data for precise diagnostics.</li>
+          <li><i class="bi bi-check-circle"></i> Innovating continuously to stay at the forefront of healthcare technology.</li>
+        </ul>
+        <p>
+          Our team is dedicated to creating a reliable, user-friendly platform that empowers healthcare professionals and individuals alike. By participating in this hackathon, we aim to showcase our commitment to excellence and our passion for advancing healthcare through technology.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="counts" class="counts">
+  <div class="container" data-aos="fade-up">
+    <div class="row no-gutters">
+      <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
+        <div class="count-box">
+          <i class="fas fa-brain"></i>
+          <span data-purecounter-start="0" data-purecounter-end="7" data-purecounter-duration="1" class="purecounter"></span>
+          <p><strong>AI-Powered</strong> Diagnostic Tool</p>
+          <a href="#">Find out more &raquo;</a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
+        <div class="count-box">
+          <i class="fas fa-database"></i>
+          <span data-purecounter-start="0" data-purecounter-end="10" data-purecounter-duration="1" class="purecounter"></span>
+          <p><strong>Comprehensive</strong> Medical Database</p>
+          <a href="#">Find out more &raquo;</a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
+        <div class="count-box">
+          <i class="fas fa-desktop"></i>
+          <br>
+          <p><strong>User-Friendly</strong> Interface</p>
+          <a href="#">Find out more &raquo;</a>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
+        <div class="count-box">
+          <i class="fas fa-chart-line"></i>
+          <span data-purecounter-start="0" data-purecounter-end="9" data-purecounter-duration="1" class="purecounter"></span>
+          <p><strong>Various</strong> Predictive Models</p>
+          <a href="#">Find out more &raquo;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="problems" class="problems">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>The Problems We Are Solving</h2>
+      <p>Our platform is designed to address some of the most critical issues in healthcare, leveraging advanced technology to provide innovative solutions.</p>
+    </div>
+  </div>
+</section>
+    <section id="features" class="features">
+      <div class="container" data-aos="fade-up">
+        <div class="row">
+          <div class="col-lg-6 order-2 order-lg-1" data-aos="fade-right">
+            <div class="icon-box mt-5 mt-lg-0">
+              <i class="bx bx-time-five"></i>
+              <h4>Delayed Diagnosis</h4>
+              <p>Reducing the time to diagnose diseases by leveraging advanced AI algorithms for faster and more accurate results.</p>
+            </div>
+            <div class="icon-box mt-5">
+              <i class="bx bx-brain"></i>
+              <h4>Subjectivity in Diagnosis</h4>
+              <p>Minimizing human error and bias by providing consistent and objective diagnostic evaluations through AI.</p>
+            </div>
+            <div class="icon-box mt-5">
+              <i class="bx bx-globe"></i>
+              <h4>Lack of Access to Specialized Expertise</h4>
+              <p>Bringing specialized medical knowledge to remote and underserved areas through advanced telemedicine solutions.</p>
+            </div>
+            <div class="icon-box mt-5">
+              <i class="bi bi-database-fill-exclamation"></i>
+              <h4>Overburdened Healthcare Systems</h4>
+              <p>Alleviating pressure on healthcare professionals by automating routine tasks and optimizing resource allocation.</p>
+            </div>
+            <div class="icon-box mt-5">
+              <i class="bx bx-dollar-circle"></i>
+              <h4>High Healthcare Costs</h4>
+              <p>Lowering healthcare expenses by improving efficiency and reducing the need for unnecessary tests and procedures.</p>
+            </div>
+          </div>
+          <div class="image col-lg-6 order-1 order-lg-2" style='background-image: url("{{ url_for('static', filename='assets/img/features.jpg') }}");' data-aos="zoom-in"></div>
+        </div>
+      </div>
+    </section><!-- End Features Section -->
+
+<!-- ======= Services Section ======= -->
+<section id="services" class="services services">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>Services</h2>
+      <p>Our innovative healthcare platform is designed to tackle some of the most pressing challenges in modern medicine, offering cutting-edge solutions to improve patient outcomes and streamline healthcare processes.</p>
+    </div>
+    <div class="row">
+      <!-- Features Section -->
+      <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="100">
+        <div class="icon"><i class="fas fa-robot"></i></div>
+        <h4 class="title"><a href="">AI-Powered Diagnostic Tool</a></h4>
+        <p class="description">Utilizes advanced machine learning algorithms to provide accurate and timely diagnostics.</p>
+      </div>
+      <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="200">
+        <div class="icon"><i class="fas fa-database"></i></div>
+        <h4 class="title"><a href="">Comprehensive Medical Database</a></h4>
+        <p class="description">Access an extensive repository of medical data to enhance diagnostic accuracy and reliability.</p>
+      </div>
+      <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="300">
+        <div class="icon"><i class="fas fa-user-friends"></i></div>
+        <h4 class="title"><a href="">User-Friendly Interface</a></h4>
+        <p class="description">Designed with simplicity in mind, making it easy for users of all levels to navigate and use.</p>
+      </div>
+      <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="100">
+        <div class="icon"><i class="fas fa-chart-line"></i></div>
+        <h4 class="title"><a href="">Various Predictive Models</a></h4>
+        <p class="description">Employs multiple predictive models tailored to different diseases and conditions.</p>
+      </div>
+      <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="200">
+        <div class="icon"><i class="fas fa-eye"></i></div>
+        <h4 class="title"><a href="">Interpretability Features</a></h4>
+        <p class="description">Provides clear explanations and insights into how diagnostic conclusions are reached.</p>
+      </div>
+
+      <!-- Problems Section -->
+      <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="300">
+        <div class="icon"><i class="fas fa-clock"></i></div>
+        <h4 class="title"><a href="">Addressing Delayed Diagnosis</a></h4>
+        <p class="description">Reduces the time to diagnosis, ensuring patients receive prompt medical attention.</p>
+      </div>
+      <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="100">
+        <div class="icon"><i class="fas fa-balance-scale"></i></div>
+        <h4 class="title"><a href="">Mitigating Diagnostic Subjectivity</a></h4>
+        <p class="description">Minimizes variability in diagnostic decisions, enhancing consistency and reliability.</p>
+      </div>
+      <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="200">
+        <div class="icon"><i class="fas fa-user-md"></i></div>
+        <h4 class="title"><a href="">Expanding Access to Expertise</a></h4>
+        <p class="description">Brings specialized diagnostic capabilities to areas with limited access to medical experts.</p>
+      </div>
+      <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="300">
+        <div class="icon"><i class="fas fa-hospital"></i></div>
+        <h4 class="title"><a href="">Alleviating Healthcare System Burdens</a></h4>
+        <p class="description">Helps reduce the workload on healthcare professionals, allowing for more efficient patient care.</p>
+      </div>
+      <div class="col-lg-4 col-md-6 icon-box" data-aos="zoom-in" data-aos-delay="100">
+        <div class="icon"><i class="fas fa-money-bill-wave"></i></div>
+        <h4 class="title"><a href="">Cutting Healthcare Costs</a></h4>
+        <p class="description">Aims to lower overall healthcare expenses by improving diagnostic accuracy and efficiency.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- End Services Section -->
+
+<!-- ======= Departments Section ======= -->
+<!-- ======= Departments Section ======= -->
+<section id="departments" class="departments">
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-title">
+      <h2>Departments</h2>
+      <p>Our AI-powered healthcare application is designed to enhance various medical specialties by providing advanced diagnostic capabilities and predictive models. Explore how we are revolutionizing cardiology, neurology, and hepatology.</p>
+    </div>
+
+    <div class="row" data-aos="fade-up" data-aos-delay="100">
+      <div class="col-lg-4 mb-5 mb-lg-0">
+        <ul class="nav nav-tabs flex-column">
+          <li class="nav-item">
+            <a class="nav-link active show" data-bs-toggle="tab" data-bs-target="#tab-1">
+              <h4>Cardiology</h4>
+              <p>Enhancing cardiac care with AI-driven diagnostic tools.</p>
+            </a>
+          </li>
+          <li class="nav-item mt-2">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-2">
+              <h4>Neurology</h4>
+              <p>Advanced AI models for neurological diagnostics.</p>
+            </a>
+          </li>
+          <li class="nav-item mt-2">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-3">
+              <h4>Hepatology</h4>
+              <p>AI insights for liver disease management.</p>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-8">
+        <div class="tab-content">
+          <div class="tab-pane active show" id="tab-1">
+            <h3>Cardiology</h3>
+            <p class="fst-italic">Our AI model in cardiology is designed to assist in the early detection and diagnosis of heart conditions. It analyzes patient data, including ECGs and imaging results, to identify potential issues quickly and accurately.</p>
+            <img src="{{ url_for('static', filename='assets/img/departments-1.jpg') }}" alt="" class="img-fluid">
+            <p>By leveraging machine learning, our system can detect anomalies such as arrhythmias and other heart-related issues. This allows for timely intervention and personalized treatment plans, improving patient outcomes and reducing the burden on healthcare providers.</p>
+          </div>
+          <div class="tab-pane" id="tab-2">
+            <h3>Neurology</h3>
+            <p class="fst-italic">Our neurology department utilizes AI to support the diagnosis and management of neurological conditions. The AI analyzes neuroimaging data to detect various neurological anomalies.</p>
+            <img src="{{ url_for('static', filename='assets/img/departments-2.jpg') }}" alt="" class="img-fluid">
+            <p>By providing detailed insights and predictive analytics, our AI aids neurologists in making accurate diagnoses and developing effective treatment strategies, ultimately enhancing patient care and quality
+
+<!-- End Frequently Asked Questions Section -->
+
+
+ <!-- ======= Contact Section ======= -->
+<section id="contact" class="contact">
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Contact</h2>
+      <p>If you have any questions about our AI-powered healthcare application or need support, please reach out to us. Our team is here to assist you with any inquiries you may have.</p>
+    </div>
+
+  </div>
+  
+  <!-- Uncomment this for adding a map
+  <div>
+    <iframe style="border:0; width: 100%; height: 350px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0" allowfullscreen></iframe>
+  </div>
+  -->
+
+  <div class="container">
+
+    <div class="row mt-5">
+
+      <div class="col-lg-6">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="info-box">
+              <i class="bx bx-map"></i>
+              <h3>Our Address</h3>
+              <p>123 Innovation Drive, Tech City, TC 54321</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="info-box mt-4">
+              <i class="bx bx-envelope"></i>
+              <h3>Email Us</h3>
+              <p>support@healthpredict.ai<br>info@healthpredict.ai</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="info-box mt-4">
+              <i class="bx bx-phone-call"></i>
+              <h3>Call Us</h3>
+              <p>+1 2345 678910<br>+1 0987 654321</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-lg-6">
+        <form method="post" role="form" class="php-email-form">
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required="">
+            </div>
+            <div class="col-md-6 form-group mt-3 mt-md-0">
+              <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required="">
+            </div>
+          </div>
+          <div class="form-group mt-3">
+            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required="">
+          </div>
+          <div class="form-group mt-3">
+            <textarea class="form-control" name="message" rows="7" placeholder="Message" required=""></textarea>
+          </div>
+          <div class="my-3">
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Your message has been sent. Thank you!</div>
+          </div>
+          <div class="text-center"><button type="submit">Send Message</button></div>
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+</section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+ <!-- ======= Footer ======= -->
+ <footer id="footer">
+  <div class="footer-top">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-3 col-md-6">
+                  <div class="footer-info">
+                      <h3>SymptoSense</h3>
+                      <p>
+                          1234 MG Road <br>
+                          Bengaluru, Karnataka 560001, India<br><br>
+                          <strong>Phone:</strong> +91 123456789<br>
+                          <strong>Email:</strong> info@example.com<br>
+                      </p>
+                      <div class="social-links mt-3">
+                          <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                          <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                          <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                          <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                          <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-lg-2 col-md-6 footer-links">
+                  <h4>Useful Links</h4>
+                  <ul>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+                      <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                  </ul>
+              </div>
+
+              <div class="col-lg-4 col-md-6 offset-lg-3 footer-newsletter">
+                  <h4>Our Newsletter</h4>
+                  <p>Register to get updated by subscribing to our newsletter</p>
+                  <form action="" method="post">
+                      <input type="email" name="email"><input type="submit" value="Subscribe">
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="container">
+      <div class="copyright">
+          &copy; Copyright <strong><span>SymptoSense</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+  </div>
+</footer><!-- End Footer -->
+<!-- Vendor JS Files -->
+<script src="{{ url_for('static', filename='assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/aos/aos.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/vendor/php-email-form/validate.js') }}"></script>
+
+<!-- Template Main JS File -->
+<script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+<script>
+  document.getElementById('open-btn').addEventListener('click', function () {
+      var chatbotContainer = document.getElementById('chatbot-container');
+      chatbotContainer.style.display = 'block'; // Show the chatbot container
+      document.getElementById('open-btn').style.display = 'none'; // Hide the open button
+  });
+
+  document.getElementById('close-btn').addEventListener('click', function () {
+      var chatbotContainer = document.getElementById('chatbot-container');
+      chatbotContainer.style.display = 'none'; // Hide the chatbot container
+      document.getElementById('open-btn').style.display = 'block'; // Show the open button
+  });
+
+  document.getElementById('send-btn').addEventListener('click', sendMessage);
+  document.getElementById('message').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+          sendMessage();
+      }
+  });
+
+  function sendMessage() {
+      var message = document.getElementById('message').value.trim();
+      if (message === '') return;
+
+      displayMessage('You: ' + message);
+
+      // Send message to server
+      fetch('/chat', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: message }),
+      })
+          .then(response => response.json())
+          .then(data => {
+              displayMessage('Bot: ' + data.response);
+          })
+          .catch(error => console.error('Error:', error));
+
+      // Clear the input field after sending the message
+      document.getElementById('message').value = '';
+  }
+
+  function displayMessage(message) {
+      var chatContainer = document.getElementById('chat-container');
+      var messageElement = document.createElement('div');
+      messageElement.innerText = message;
+      chatContainer.appendChild(messageElement);
+
+      // Scroll to the bottom of the chat container
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+</script>
+    <!-- JavaScript -->
+   
+</body>
+
+</html>
